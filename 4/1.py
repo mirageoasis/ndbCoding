@@ -15,7 +15,7 @@ moves = sys.stdin.readline().rstrip().split()
 
 x = 1
 y = 1
-
+'''
 for move in moves:
     if move == "R":
         y = min(N, y + 1)
@@ -27,6 +27,23 @@ for move in moves:
         x = max(1, x - 1)
     else:
         print("에러 발생")
+print(x, y)
+'''
+
+dx = [0, 0, -1, 1]
+dy = [-1, 1, 0 , 0]
+move_type = ['L', 'R', 'U', 'D']
+
+
+for move in moves:
+    newx, newy = 0 , 0
+    for i in range(0, len(move_type)):
+        if move_type[i] == move:
+            newx = x + dx[i]
+            newy = y + dy[i]
+    if newx < 1 or newy < 1 or newx > N or newy > N:
+        continue
+    x, y = newx, newy
     
 
 print(x, y)
