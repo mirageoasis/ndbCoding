@@ -18,6 +18,8 @@ print(number_list)
 #print(N, M, K)
 s = 0
 
+
+## 이 부분 수학적으로 반복문 없이 계산 가능함
 for i in range(1, M + 1):
     if not i % (K + 1): # N 번째 더할 때 
         s += number_list[-2]
@@ -25,4 +27,5 @@ for i in range(1, M + 1):
         s += number_list[-1]
     #print(s)
         
+
 print(s)
