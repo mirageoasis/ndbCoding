@@ -21,7 +21,7 @@ def find_parent(parent_list, n):
     return n
 
 def compression_find_parent(parent_list, n):
-    if n != parent_list[n]:
+    if parent_list[n] != n:
         parent_list[n] = compression_find_parent(parent_list, n)
     return parent_list[n]
 
