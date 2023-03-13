@@ -27,8 +27,8 @@ while que:
     if(second == S):
         break
     for i in range(4):
-        new_col = row + d_row[i]
-        new_row = col + d_col[i]
+        new_row = row + d_row[i]
+        new_col = col + d_col[i]
         if -1 < new_col < N and -1 < new_row < N and chart[new_row][new_col] == 0:
             chart[new_row][new_col] = virus_type
             que.append((virus_type, new_row, new_col, second + 1))
