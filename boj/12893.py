@@ -50,7 +50,8 @@ for _ in range(M):
 else:
     print(1)
 
-
+# 1 3
+# 2 4
 
 #4 4
 #1 2
