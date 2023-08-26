@@ -1,29 +1,25 @@
-import sys
+from math import gcd
+from functools import reduce
 
-T = int(input())
+t=int(input())
 
-for i in range(T):
-    chart = []
-    n, m = map(int, sys.stdin.readline().strip().split())
-    for _ in range(m+1):
-        chart.append([0 for j in range(n+4)])
+mother = []
+son = []
+son_mul = []
 
-    chart[1][1] = 1
-    chart[1][2] = 1
-    chart[1][3] = 1
+for i in range(t):
+    n, m = map(int, input().split())
+    son.append(n)
+    mother.append(m)
+    # 분모를 다 곱하고 
 
-    if m >= 2:
-        chart[2][1] = 0
-        chart[2][2] = 1
-        chart[2][3] = 2
-    if m >= 3:
-        chart[3][1] = 0
-        chart[3][2] = 0
-        chart[3][3] = 1
-    
-    for j in range(2, m+1):
-        for k in range(4, n+4):
-            chart[j][k] = (chart[j-1][k-1] + chart[j-1][k-2] + chart[j-1][k-3]) % 1000000009
-    
-    t = [j[-4] for j in chart ]
-    print(sum(t) % 1000000009)
+all_mul = reduce(lambda x, y : x * y, mother)
+
+for m, s in zip(mother, son):
+    son_mul.append(s * all_mul // m)
+
+son_gcd = gcd(*son_mul) 
+ans_son = son_gcd // gcd(son_gcd, all_mul)
+ans_mom = all_mul // gcd(son_gcd, all_mul)
+
+print(ans_son, ans_mom)
