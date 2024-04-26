@@ -1,88 +1,83 @@
+num_to_char = {
+    3000 : "MMM",
+    2000 : "MM",
+    1000 : "M",
+    
+    900 : "CM",
+    800 : "DCCC",
+    700 : "DCC",
+    600 : "DC",
+    500 : "D",
+    400 : "CD",
+    300 : "CCC",
+    200 : "CC",
+    100 : "C",
+    
+    90 : "XC",
+    80 : "LXXX",
+    70 : "LXX",
+    60 : "LX",
+    50 : "L",
+    40 : "XL",
+    30 : "XXX",
+    20 : "XX",
+    10 : "X",
+    
+    9 : "IX",
+    8 : "VIII",
+    7 : "VII",
+    6 : "VI",
+    5 : "V",
+    4 : "IV",
+    3 : "III",
+    2 : "II",
+    1 : "I",
+    
+    0 : "",   
+}
+
+char_to_num = {
+    "I": 1,
+    "V": 5,
+    "X": 10,
+    "L": 50,
+    "C": 100,
+    "D": 500,
+    "M": 1000,
+}
+
 a = input()
 b = input()
 
-small = {
-    "IV" : 4,
-    "IX" : 9,
-    "XL" : 40,
-    "XC" : 90,
-    "CD" : 400,
-    "CM" : 900,
-}
 
-normal = {
-    "I" : 1,
-    "V" : 5,
-    "X" : 10,
-    "L" : 50,
-    "C" : 100,
-    "D" : 500,
-    "M" : 1000,
-}
+def string_to_num(string):
+    ret = 0
 
-def to_num(string : str):
-    ret = 0 
-    for i in small:
-        if string.find(i) != -1:
-            string = string.replace(i, '')
-            ret += small[i]
-    for i in string:
-        ret += normal[i]
+    if len(string) == 1:
+        return char_to_num[string[0]]
 
+    buffer=char_to_num[string[0]]
+    for idx in range(1, len(string)):
+        if char_to_num[string[idx]] > char_to_num[string[idx-1]]:
+            buffer = char_to_num[string[idx]] - buffer
+            ret+=buffer
+            buffer=0
+        else:
+            ret+=buffer
+            buffer=char_to_num[string[idx]]
+    ret+=buffer
     return ret
 
-def convert_to_string(total_ans):
-    ret = ''
-    thousand = total_ans // 1000
-    hund = total_ans % 1000 // 100
-    ten = total_ans % 100 // 10
-    one = total_ans % 10
+ans = string_to_num(a) + string_to_num(b)
+print(ans)
 
-    ret += 'M' * thousand
-
-    if hund >= 5:
-        if hund == 9:
-            ret += 'CM'
-        else:
-            ret += 'D'
-            ret += 'C' * (hund - 5)
-    else:
-        if hund == 4:
-            ret += 'CD'
-        else:
-            ret += 'C' * hund
-
-    if ten >= 5:
-        if ten == 9:
-            ret += 'XC'
-        else:
-            ret += 'L'
-            ret += 'X' * (ten - 5)
-    else:
-        if ten == 4:
-            ret += 'XL'
-        else:
-            ret += 'X' * ten
-
-    if one >= 5:
-        if one == 9:
-            ret += 'IX'
-        else:
-            ret += 'V'
-            ret += 'I' * (one - 5)
-    else:
-        if one == 4:
-            ret += 'IV'
-        else:
-            ret += 'I' * one
-
-    return ret
+string = ""
+n = 1000
+while n > 0:
+    real = ans // n * n
+    string += num_to_char[real]
+    ans -= real
+    n //=10
 
 
-ans_a = to_num(a)
-ans_b = to_num(b)
-
-total_ans = ans_a + ans_b
-
-print(total_ans)
-print(convert_to_string(total_ans))
+print(string)
