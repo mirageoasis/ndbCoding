@@ -27,4 +27,5 @@ for i in range(len(li) - 1, -1, -1):  # 뒤에서부터 확인
         cnt -= 1  # 다음 LIS 위치로 이동
 
 # 결과 출력
+print(len(result))
 print(' '.join(map(str, result[::-1])))
