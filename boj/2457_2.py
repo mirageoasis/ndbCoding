@@ -1,7 +1,6 @@
 import sys
 n=int(input())
 
-start_chart=[]
 date_chart=[]
 
 month_date=[
@@ -40,12 +39,41 @@ for i in range(n):
     s_total_date=date_to_num(s_month, s_date)
     e_total_date=date_to_num(e_month, e_date)
     if e_total_date >= date_to_num(3, 2) and s_month != 12:
-        if s_total_date < date_to_num(3, 1):
-            start_chart.append([s_total_date, e_total_date])
-        else:
-            date_chart.append([s_total_date, e_total_date])
+        date_chart.append([s_total_date, e_total_date])
 
-start_chart.sort(key=lambda x:(-x[1]))
 date_chart.sort(key=lambda x: (x[0], -x[1]))
 
+#for d in date_chart:
+#    print(num_to_date(d[0]), num_to_date(d[1]),end=' ', sep=":")
+#print
 
+# 이어질 수 있는 최대 종료일
+now_end=date_to_num(3,1)
+
+idx=0
+ans=0
+while idx < len(date_chart):
+    # 여기에서 최대가 될 수 있는 날짜를 찾는다.
+    max_end=now_end
+    origin_idx=idx
+    while idx < len(date_chart):
+        #끝이면 break
+        idx_start, idx_end = date_chart[idx]
+        # 안되는 경우는 위에서 걸린다.
+        if now_end < idx_start:
+            break
+        if now_end<idx_end:
+            max_end=max(idx_end, max_end)
+        idx+=1
+    if idx == origin_idx:
+        break
+    now_end=max_end
+    ans+=1
+    if now_end > date_to_num(11,30):
+        break
+
+
+#print(num_to_date(now_end))
+print(ans if now_end > date_to_num(11, 30) else 0)
+
+#print(ans)
