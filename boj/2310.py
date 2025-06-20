@@ -4,7 +4,7 @@ from heapq import heappush, heappop
 input=sys.stdin.readline
 
 def bfs(start):
-    global d, graph, dist, n
+    global d, graph, cost_chart, n
     
     if d[start][0] == 'T':
         return
@@ -13,26 +13,26 @@ def bfs(start):
     #dist[1]=0
 
     while heap:
-        old_dist, pt = heappop(heap)
-        old_dist=old_dist * -1
-        cost = d[pt][1]
+        cost, pt = heappop(heap)
+        cost=cost * -1
+        point_cost = d[pt][1]
         if d[pt][0] == 'T':
-            old_dist -= cost
+            cost -= point_cost
         else:
-            old_dist = max(old_dist, cost)
+            cost = max(cost, point_cost)
         #print(pt, old_dist, cost)
-        if dist[pt] >= old_dist:
+        if cost_chart[pt] >= cost:
             continue
-        if old_dist < 0:
+        if cost < 0:
             continue
         if pt == n:
-            dist[pt]=old_dist
+            cost_chart[pt]=cost
             break
-        dist[pt]=old_dist
+        cost_chart[pt]=cost
         
         for new_pt in graph[pt]:
-            if old_dist > dist[new_pt]:
-                heappush(heap, (-old_dist, new_pt))
+            if cost > cost_chart[new_pt]:
+                heappush(heap, (-cost, new_pt))
 
 
 while True:
@@ -40,23 +40,23 @@ while True:
     if not n:
         break
     graph=[[] for i in range(n+1)]
-    dist=[-1 for i in range(n+1)]
+    cost_chart=[-1 for i in range(n+1)]
     d=dict()
     for i in range(1,n +1):
         li = input().split()
         alpha = li[0]
         li=list(map(int, li[1:]))
-        cost = li[0]
+        c = li[0]
         li=li[1:]
         li.pop()
         graph[i]=li
-        d[i]=(alpha, cost)
+        d[i]=(alpha, c)
     bfs(1)
     
     #print(graph)
     #print(d)
     #print(dist)
-    if dist[-1] > -1:
+    if cost_chart[-1] > -1:
         print("Yes")
     else:
         print("No")
