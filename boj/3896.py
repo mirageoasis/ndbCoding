@@ -13,19 +13,6 @@ prime_list=[]
 for i in range(2, INF):
     if is_prime[i]:
         prime_list.append(i)
-prime_reversed=list(reversed(prime_list))
-
-def lower_bound(target):
-    global prime_reversed
-    start=0
-    end=len(prime_reversed)
-    while end > start:
-        mid=(end+start)//2
-        if prime_reversed[mid] > target:
-            start=mid+1
-        else:
-            end=mid                
-    return prime_reversed[start]
 
 def upper_bound(target):
     global prime_list
@@ -37,7 +24,7 @@ def upper_bound(target):
             start=mid+1
         else:
             end=mid
-    return prime_list[start]
+    return prime_list[start] - prime_list[start-1]
 
 
 for i in range(n):
@@ -47,6 +34,6 @@ for i in range(n):
     else:
         #print(upper_bound(num))
         #print(lower_bound(num))
-        print(upper_bound(num) - lower_bound(num))
+        print(upper_bound(num))
 
 
